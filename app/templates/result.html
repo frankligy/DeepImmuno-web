@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Result</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+
+  <div class="jumbotron text-center">
+    <h1>DeepImmuno</h1>
+    <p>Prediction of epitope immunogenicity for CD8+ Cell</p> 
+    </div>
+
+<div class="container">
+    <div class="row">
+        <h2>Immunogenicity Result of Queries</h2>           
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>peptide</th>
+              <th>MHC</th>
+              <th>Binding(mhcflurry)</th>
+              <th>immunogenicity[<a href="./learn_more">Interprete</a>]</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ peptide }}</td>
+              {% if flag == 'on' %}
+              <td>{{ mhc }}<a href="./learn_more">[Caveat!]</a></td>
+              {% else %}
+              <td>{{ mhc }}</td>
+              {% endif %}
+              <td>{{ binding }}</td>
+              <td>{{ score }}</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+
+
+    <div class="mt-4 row">
+        <h2><span style="color:red;">{{ peptide }}</span> achive <span style="color:red;">highest</span> immunogenicity with these 5 MHC molecules</h2>
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>peptide</th>
+                <th>MHC</th>
+                <th>Binding(mhcflurry)</th>
+                <th>immunogenicity</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for idx in [0,1,2,3,4] %}
+              <tr>
+                <td>{{ p[idx] }}</td>
+                <td>{{ m[idx] }}</td>
+                <td>{{ b[idx] }}</td>
+                <td>{{ i[idx] }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+
+
+    <div class="mt-4 row">
+        <h2><span style="color:red;">{{ m3 }}</span> perference for peptides(weblogo view)</h2>
+        <div class="col-xl-6">   
+            <h4>9mer Positive</h4>
+            <img src="{{ path[0] }}" alt="Not Enough Data Available" width=300 height=100>
+        </div>
+        <div class="col-xl-6">
+            <h4>9mer Negative</h4>
+            <img src="{{ path[1] }}" alt="Not Enough Data Available" width=300 height=100>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-6">
+            <h4>10mer Positive</h4>
+            <img src="{{ path[2] }}" alt="Not Enough Data Available" width=300 height=100>
+        </div>
+        <div class="col-xl-6">
+            <h4>10mer Negative</h4>
+            <img src="{{ path[3] }}" alt="Not Enough Data Available" width=300 height=100>
+        </div>
+    </div>
+
+    <br>
+    <br>
+    <div class="row">
+      <div class="col-xl text-center">
+        <h2> Click:
+        <a href="https://deepimmuno.herokuapp.com/" style="color:red;">Go back to query page</a>     <!--might need to change when deployed to production server-->
+        </h2>
+      </div>
+    </div>
+
+</div>
+
+<footer class="page-footer font-small">
+    <div class="footer-copyright text-center py-3">© 2020 Copyright:
+      <a href="https://github.com/frankligy"> Guangyuan(Frank) Li</a>
+    </div>
+</footer>
+
+</body>
+</html>

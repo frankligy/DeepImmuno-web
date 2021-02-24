@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>learn_more</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+
+<div class="jumbotron text-center">
+    <h1>DeepImmuno</h1>
+    <p>Prediction of epitope immunogenicity for CD8+ Cell</p> 
+    </div>
+
+
+<div class="container">
+    <div class="row">
+        <h2>How to interpret immunogenicity score?</h2>
+        <p class="lead">A high immunogenicty score means we are more confident about this peptide-HLA complex will trigger T cell response, compared to a one with lower
+            immunogenicity score. It doesn't necessarily reflect the actual degree of immunogenicity for a selected peptide, the reason is we believe it is 
+            always biased to conclude whether a peptide would be immunogenic or not solely based on HLA-peptide information, without TCR sequence input.
+        </p>
+        <p class="lead">To further understand why the immunogenicity score reflects the confidence, It relats to how we define the immunogenicity potential, we reason
+            that a if a peptide1 was tested 40 times and responded 40 times should hold a higher confidence than peptide2, which was tested 6 times and only responded 
+            1 times. We used a beta-binomial model to incorporate this layer of information to derive a immunogenicity potential used for training. So the output value 
+            can reflect our confidence given the best current knowledge we have. 
+        </p>
+
+    <div class="row">
+        <h2>When should I check binding affnity option?</h2>
+        <p class="lead"> It is always good to check it for a comprehensive understanding of the results, however, the only downside of checking it is that, it will
+            requires addtional computing time (30-60s) because we are calling an external package mhcflurry. A successful CD8+ immune response requires two step: 
+            (1) First the peptide has to be presented by HLA allele, (2) Then the HLA-peptide complex need to be able to trigger T cell response. In our training 
+            dataset, all the immunogenic peptides are HLA-bound, but for some of the unseen HLA-peptide complex, DeepImmuno-CNN sometimes may generate a high immunogenicity
+            score even though this peptide is very likely not able to bind with HLA allele. In order to avoid this problem, checking binding affnity can give you a better
+            idea regarding how to interprete the result.
+
+        </p>
+    </div>
+
+    <div class="row">
+        <h2>Why there's a Caveat beside my queried HLA allele?</h2>
+        <p class="lead">Because the HLA you queried, based on our investigation, may generate unreliable result since this HLA allele is less-studied and we do not
+            have enough training data instance to reliably infer its immunogenecity. 
+        </p>
+
+    </div>
+
+
+    <br>
+    <br>
+    <div class="row">
+      <div class="col-xl text-center">
+        <h2> Click:
+        <a href="https://deepimmuno.herokuapp.com/" style="color:red;">Go back to query page</a>     <!--might need to change when deployed to production server-->
+        </h2>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+</div>
+
+</body>
+
+</html>
