@@ -327,7 +327,7 @@ def computing_m(peptide,mhc,is_checked):    # multiple MHC query
     p = top5['peptide'].tolist()
     m = top5['HLA'].tolist()
     i = [item for item in top5['immunogenicity']]
-
+    print('*******************4*****************')
     # for these 5 complex, compute binding affnity
     if is_checked == 'True':
 
@@ -345,10 +345,12 @@ def computing_m(peptide,mhc,is_checked):    # multiple MHC query
         for index,mhc_ in enumerate(m):
             tmp_dic_for_alleles['sample{}'.format(index)] = [mhc_]
         predictor = Class1PresentationPredictor.load()
+        print('*******************5*****************')
         result = predictor.predict(
             peptides=p,
             alleles=tmp_dic_for_alleles,
             verbose=0)
+        print('*******************6*****************')
         final = []
         for sample,chunk in result.groupby(by='sample_name'):
             index = int(sample[-1:])
@@ -444,11 +446,14 @@ def binding_score_from_mhcflurry_s(peptide,mhc):
     except:
         os.system("mhcflurry-downloads fetch models_class1_presentation")
         predictor = Class1PresentationPredictor.load()
+    print('*******************1*****************')
     result = predictor.predict(
         peptides=[peptide],
         alleles=[mhc],
         verbose=0)
+    print('*******************2*****************')
     binding = result.iloc[0]['presentation_score']
+    print('*******************3*****************')
     return float(binding)
 
 
