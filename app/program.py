@@ -366,15 +366,15 @@ def svg_path(hla):
     path = ["/static/{0}_positive_9.png".format(hla),"/static/{0}_negative_9.png".format(hla),"/static/{0}_positive_10.png".format(hla),"/static/{0}_negative_10.png".format(hla)]
 
 
-def wrapper_file_process():
+def wrapper_file_process(is_checked):
     cond = True
-    try: file_process()
+    try: file_process(is_checked)
     except Exception as err: 
         #cond = False
         print(err)
     return cond
 
-def file_process(upload="./uploaded/multiple_query.txt",download="./app/download/result.txt"):
+def file_process(is_checked,upload="./uploaded/multiple_query.txt",download="./app/download/result.txt"):
     table_scaled = wrapper_read_scaling()   # [21,553]
     after_pca = pca_apply_reduction(table_scaled)   # [21,12]
     hla = pd.read_csv('hla2paratopeTable_aligned.txt',sep='\t')
@@ -388,8 +388,8 @@ def file_process(upload="./uploaded/multiple_query.txt",download="./app/download
     ori_score = pd.read_csv(upload,sep=',',header=None)
     ori_score.columns = ['peptide','HLA']
     ori_score['immunogenicity'] = ['0'] * ori_score.shape[0]
-    print('************************ 1 *************************')
-    ori_score.to_csv(download,sep='\t',index=None)
+    print('************************ 1 *************************')  # may need to remove
+    ori_score.to_csv(download,sep='\t',index=None)   # may need to remove
     dataset_score,hla_type = construct_aaindex(ori_score,hla_dic,after_pca,dic_inventory)
     
     input1_score = pull_peptide_aaindex(dataset_score)
@@ -398,6 +398,24 @@ def file_process(upload="./uploaded/multiple_query.txt",download="./app/download
     scoring = cnn_model.predict(x=[input1_score,input2_score])
     scoring = cnn_model.predict(x=[input1_score,input2_score])
     ori_score['immunogenicity'] = scoring
+
+    if is_checked == 'True': # see the compute_m function for why we set up like this
+        m = ori_score['HLA'].values.tolist()  # a list of HLA
+        p = ori_score['peptide'].values.tolist()  # a list of peptides
+        tmp_dic_for_alleles= {}
+        for index,mhc_ in enumerate(m):
+            tmp_dic_for_alleles['sample{}'.format(index)] = [mhc_]
+        predictor = Class1PresentationPredictor.load()
+        result = predictor.predict(
+            peptides=p,
+            alleles=tmp_dic_for_alleles,
+            verbose=0)
+        final = []
+        for sample,chunk in result.groupby(by='sample_name'):
+            index = int(sample[-1:])
+            final.append(chunk.iloc[index,:]['presentation_score'])
+        ori_score['binding(mhcflurry)'] = final
+
     ori_score.to_csv(download,sep='\t',index=None)
 
 

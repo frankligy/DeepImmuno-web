@@ -48,7 +48,9 @@ def home():
         else:
             uploaded_file = request.files['file']
             uploaded_file.save("./uploaded/multiple_query.txt")
-            cond = wrapper_file_process()
+            # add options for reporting binding affinity
+            is_checked = request.form.get('binding_m') != None # boolean
+            cond = wrapper_file_process(str(is_checked))
             if not cond:
                 flash("please check your file format:")
                 flash("file should contains two columns,delimiter is comma")
