@@ -443,6 +443,7 @@ def binding_score_from_mhcflurry_s(peptide,mhc):
         predictor = Class1PresentationPredictor.load()
     except:
         os.system("mhcflurry-downloads fetch models_class1_presentation")
+        predictor = Class1PresentationPredictor.load()
     result = predictor.predict(
         peptides=[peptide],
         alleles=[mhc],

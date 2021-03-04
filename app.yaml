@@ -1,6 +1,6 @@
 runtime: python
 env: flex
-entrypoint: gunicorn -b :$PORT pier2:app --timeout 120
+entrypoint: gunicorn -b :$PORT pier2:app --timeout 180
 
 runtime_config:
   python_version: 3.6
