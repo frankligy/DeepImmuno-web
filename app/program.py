@@ -327,7 +327,7 @@ def computing_m(peptide,mhc,is_checked):    # multiple MHC query
     p = top5['peptide'].tolist()
     m = top5['HLA'].tolist()
     i = [item for item in top5['immunogenicity']]
-    print('*******************4*****************')
+
     # for these 5 complex, compute binding affnity
     if is_checked == 'True':
 
@@ -345,12 +345,10 @@ def computing_m(peptide,mhc,is_checked):    # multiple MHC query
         for index,mhc_ in enumerate(m):
             tmp_dic_for_alleles['sample{}'.format(index)] = [mhc_]
         predictor = Class1PresentationPredictor.load()
-        print('*******************5*****************')
         result = predictor.predict(
             peptides=p,
             alleles=tmp_dic_for_alleles,
             verbose=0)
-        print('*******************6*****************')
         final = []
         for sample,chunk in result.groupby(by='sample_name'):
             index = int(sample[-1:])
@@ -391,7 +389,6 @@ def file_process(is_checked,upload="./uploaded/multiple_query.txt",download="./a
     ori_score.columns = ['peptide','HLA']
     ori_score['immunogenicity'] = ['0'] * ori_score.shape[0]
     print('************************ 1 *************************')  # may need to remove
-    ori_score.to_csv(download,sep='\t',index=None)   # may need to remove
     dataset_score,hla_type = construct_aaindex(ori_score,hla_dic,after_pca,dic_inventory)
     
     input1_score = pull_peptide_aaindex(dataset_score)
@@ -441,20 +438,33 @@ def check_mhc(mhc):
 
 
 def binding_score_from_mhcflurry_s(peptide,mhc):
-    try:
-        predictor = Class1PresentationPredictor.load()
-    except:
-        os.system("mhcflurry-downloads fetch models_class1_presentation")
-        predictor = Class1PresentationPredictor.load()
-    print('*******************1*****************')
+    predictor = Class1PresentationPredictor.load()
     result = predictor.predict(
         peptides=[peptide],
         alleles=[mhc],
         verbose=0)
-    print('*******************2*****************')
     binding = result.iloc[0]['presentation_score']
-    print('*******************3*****************')
     return float(binding)
+
+
+def check_upload(upload):
+    import pandas as pd
+    try:
+        df = pd.read_csv(upload)
+    except:
+        print('hey1')
+        return False
+    else:
+        try: assert df.shape[1] == 2
+        except AssertionError: print('hey2');return False
+        else: 
+            try: 
+                for i in range(df.shape[0]):
+                    peptide = df.iloc[i][0]
+                    mhc = df.iloc[i][1]
+                    assert check_peptide(peptide) and check_mhc(mhc)
+            except AssertionError: print(i,peptide,mhc);return False
+            else: return True
 
 
 

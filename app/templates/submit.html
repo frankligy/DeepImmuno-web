@@ -24,35 +24,34 @@
     <div class='row'>
         <div class='col-xl-2'></div>
         <div class='col-xl-8'>
-            <form action="" method="post" enctype="multipart/form-data" novalidate>
+            <form method="post", enctype="multipart/form-data">
                 <div class="form-group">
-                    <label for="peptide">peptide</label>
-                    <input type="text" class="form-control" placeholder="PLRTQWERN" name="peptide">
+                    {{ form.hidden_tag() }}
+                    {{ form.peptide.label }} 
+                    {{ form.peptide(class_="form-control",placeholder="PLRTQWERN") }}
                 </div>
 
                 <div class="form-group">
-                    <label for="mhc">MHC</label>
-                    <input type="text" class="form-control" placeholder="HLA-A*0201" name="mhc">
+                    {{ form.hidden_tag() }}
+                    {{ form.mhc.label }}
+                    {{ form.mhc(class_="form-control",placeholder="HLA-A*0201") }}
                 </div>
 
-                <div class="form-check">
-                    <input type="checkbox" name="binding_s" value="true">
-                    <label>Do you need binding affnity score? (need 30-60s computation)<a href="./learn_more">[Learn more]</a></label>
-                </div>
 
-                <br>
-
-                <input type="file" name="file">
+                {{ form.hidden_tag() }}
+                {{ form.file_upload() }}
                 <br>
                 <br>
                 <div class="form-check">
-                    <input type="checkbox" name="binding_m" value="True">
-                    <label>Do you need binding affnity score? (need 30-60s computation) <a href="./learn_more">[Learn more]</a></label>
+                    {{ form.hidden_tag() }}
+                    {{ form.checkbox()}}
+                    <label>Do you need binding affinity score? (need 30-60s computation)<a href="./learn_more">[Learn more]</a></label>
                 </div>
                 <br>
                 <br>
-                <button type="submit" class="btn btn-primary">Query</button>
-
+                {{ form.hidden_tag() }}
+                {{ form.submit_button(class_="btn btn-primary") }}
+            
 
 
                 {% for message in get_flashed_messages() %}
