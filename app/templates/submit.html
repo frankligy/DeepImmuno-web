@@ -28,24 +28,24 @@
                 <div class="form-group">
                     {{ form.hidden_tag() }}
                     {{ form.peptide.label }} 
-                    {{ form.peptide(class_="form-control",placeholder="PLRTQWERN") }}
+                    {{ form.peptide(class_="form-control",value="PLRTQWERN") }}
                 </div>
 
                 <div class="form-group">
                     {{ form.hidden_tag() }}
                     {{ form.mhc.label }}
-                    {{ form.mhc(class_="form-control",placeholder="HLA-A*0201") }}
+                    {{ form.mhc(class_="form-control",value="HLA-A*0201") }}
                 </div>
 
 
                 {{ form.hidden_tag() }}
                 {{ form.file_upload() }}
+                <label><a href="https://github.com/frankligy/DeepImmuno#how-to-use"><u>File Format?</u></a></label>
                 <br>
                 <br>
                 <div class="form-check">
                     {{ form.hidden_tag() }}
-                    {{ form.checkbox()}}
-                    <label>Do you need binding affinity score? (need 30-60s computation)<a href="./learn_more">[Learn more]</a></label>
+                    <label>{{ form.checkbox()}}Do you need binding affinity score? (need 30-60s computation)<a href="./learn_more#div2">[Learn more]</a></label>
                 </div>
                 <br>
                 <br>
@@ -66,10 +66,22 @@
 
 <!-- Footer -->
 <footer class="page-footer font-small">
-    <div class="footer-copyright text-center py-3">© 2020 Copyright:
+    <div class="footer-copyright text-center py-3">© 2021 Copyright:
       <a href="https://github.com/frankligy"> Guangyuan(Frank) Li</a>
     </div>
 </footer>
 
 </body>
+
+<script>
+    function manage() {
+        var x = document.getElementById("submit_button");
+        x.disabled = true;
+        x.form.submit();
+        x.value = "Loading...";
+    }
+
+    document.getElementById("submit_button").addEventListener("click",manage);
+
+</script>
 </html>

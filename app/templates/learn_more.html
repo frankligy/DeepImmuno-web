@@ -19,7 +19,7 @@
 
 
 <div class="container">
-    <div class="row">
+    <div class="row" id='div1'>
         <h2>How to interpret immunogenicity score?</h2>
         <p class="lead">A high immunogenicity score indicates increased confidence that the denoted peptide-HLA complex will trigger a T cell response, 
             compared to another peptide with a lower immunogenicity score. However, it does not necessarily reflect the actual degree of immunogenicity, 
@@ -30,23 +30,36 @@
             Hence, the output value reflects the confidence of the prediction.
         </p>
 
-    <div class="row">
+    <div class="row" id="div2">
         <h2>When should I check binding affnity option?</h2>
-        <p class="lead"> It is always good to check it for a comprehensive understanding of the results, however, the only downside of checking it is that, it will
-            require addtional computing time (30-60s) because we are calling an external package mhcflurry. A successful CD8+ immune response requires two step: 
-            (1) First the peptide has to be presented by HLA allele, (2) Then the HLA-peptide complex needs to be able to trigger T cell response. In our training 
-            dataset, all the immunogenic peptides are HLA-bound, but for some of the unseen HLA-peptide complex, DeepImmuno-CNN sometimes may generate a high immunogenicity
-            score even though this peptide is very likely not able to bind with cognate HLA allele. In order to circumvent this problem, checking binding affnity can offer a better
-            intuition of how to interprete the result.
-
+        <p class="lead">It is always good to check it for a comprehensive understanding of the results, however, the only downside of checking it is that, 
+            it will require addtional computing time (30-60s) because we are calling an external package mhcflurry. A successful CD8+ immune response requires 
+            two step: (1) First the peptide has to be presented by HLA allele, (2) Then the HLA-peptide complex needs to be able to trigger T cell response. 
+            In our training dataset, all the immunogenic peptides are HLA-bound, but for some of the unseen HLA-peptide complex, DeepImmuno-CNN sometimes may 
+            generate a high immunogenicity score even though this peptide is very likely not able to bind with cognate HLA allele. In order to circumvent this 
+            problem, checking binding affnity can offer a better intuition of how to interprete the result.
         </p>
     </div>
 
-    <div class="row">
+    <div class="row" id="div3">
+        <h2>When should I select the binding affinity option?</h2>
+        <p class="lead">Selecting this option will additionally produce peptide-MHC binding predications in addition to immunogenicity predictions for 
+            queried peptide(s). Any valid CD8+ T cell mediated immune response requires a peptide is presented by the HLA allele and the HLA-peptide complex 
+            triggers a T-cell response. DeepImmuno-CNN predicts immunogenicity and not MHC-binding. By selecting this option,  the user can assess the 
+            likelihood of both binding and immunogenicity in a single query. As such, this analysis requires approximately 30-60s additional runtime, 
+            as it calls the python package MHCflurry. </p>
+    </div>
+
+    <div class="row" id="div4">
         <h2>Why there's a Caveat beside my queried HLA allele?</h2>
         <p class="lead">The HLA queried may produce unreliable results as it is less-studied with insufficient training data instances to reliably infer its immunogenicity.
         </p>
+    </div>
 
+    <div class="row" id="div5">
+        <h2>What does the label "Caveat" indicate?</h2>
+        <p class="lead">In certain cases, the peptide query for a specific HLA allele, will produce unreliable results, when the HLA-allele has 
+            few immunogenicity experimental results in our training dataset. As such, DeepImmunno-CNN is not able to reliably infer its immunogenicity.</p>
     </div>
 
 

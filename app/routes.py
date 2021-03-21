@@ -4,7 +4,7 @@ from app.program import computing_s,computing_m,hla_convert,svg_path,check_pepti
 from app.form import QueryForm
 import sys
 import os
-
+import datetime
 
 @app.route('/result')
 def result():

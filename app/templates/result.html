@@ -26,14 +26,14 @@
               <th>peptide</th>
               <th>MHC</th>
               <th>Binding(mhcflurry)</th>
-              <th>immunogenicity[<a href="./learn_more">Interpret</a>]</th>
+              <th>immunogenicity[<a href="./learn_more#div1">Interpret</a>]</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>{{ peptide }}</td>
               {% if flag == 'on' %}
-              <td>{{ mhc }}<a href="./learn_more">[Caveat!]</a></td>
+              <td>{{ mhc }}<a href="./learn_more#div4">[Caveat!]</a></td>
               {% else %}
               <td>{{ mhc }}</td>
               {% endif %}
@@ -106,7 +106,7 @@
 </div>
 
 <footer class="page-footer font-small">
-    <div class="footer-copyright text-center py-3">© 2020 Copyright:
+    <div class="footer-copyright text-center py-3">© 2021 Copyright:
       <a href="https://github.com/frankligy"> Guangyuan(Frank) Li</a>
     </div>
 </footer>
